@@ -18,41 +18,50 @@ public class Filosofo extends Thread{
 	}
 	
 	public void comer() throws InterruptedException {
-		if (this.pos == 3) {
+		if (this.pos == 2) {
 			if(this.garfoDireita.pegar()) {
-				System.out.println("Filosofo " + this.nome + " pegou garfo da direita");
+				System.out.println("[" + this.nome + "] pegou garfo da direita");
 							
 				if(this.garfoEsquerda.pegar()) {
-					System.out.println("Filosofo " + this.nome + " esta COMENDO");
+					System.out.println("[" + this.nome + "] pegou garfo da esquerda");
+					System.out.println("[" + this.nome + "] esta COMENDO");
 					Thread.sleep(r.nextInt(1500) + 500);
 					this.garfoDireita.soltar();
 					this.garfoEsquerda.soltar();
-					System.out.println("Filosofo " + this.nome + " terminou de comer\n");
+					System.out.println("[" + this.nome + "] terminou de comer\n");
 					this.comeu = true;
 				} else {
-					System.out.println("Filosofo " + this.nome + " esta pensando");
+					this.garfoDireita.soltar();
+					System.out.println("[" + this.nome + "] esta pensando");
 					Thread.sleep(r.nextInt(1500) + 500);
-				}
+				}			
 				
-				this.garfoDireita.soltar();
+			} else {
+				System.out.println("[" + this.nome + "] esta pensando");
+				Thread.sleep(r.nextInt(1500) + 500);
 			}
+			
 		} else {
 			if(this.garfoEsquerda.pegar()) {
-				System.out.println("Filosofo " + this.nome + " pegou garfo da direita");
+				System.out.println("[" + this.nome + "] pegou garfo da esquerda");
 							
 				if(this.garfoDireita.pegar()) {
-					System.out.println("Filosofo " + this.nome + " esta COMENDO");
+					System.out.println("[" + this.nome + "] pegou garfo da direita");
+					System.out.println("[" + this.nome + "] esta COMENDO");
 					Thread.sleep(r.nextInt(1500) + 500);
 					this.garfoDireita.soltar();
 					this.garfoEsquerda.soltar();
-					System.out.println("Filosofo " + this.nome + " terminou de comer\n");
+					System.out.println("[" + this.nome + "] terminou de comer\n");
 					this.comeu = true;
 				} else {
-					System.out.println("Filosofo " + this.nome + " esta pensando");
+					this.garfoEsquerda.soltar();
+					System.out.println("[" + this.nome + "] esta pensando");
 					Thread.sleep(r.nextInt(1500) + 500);
 				}
 				
-				this.garfoEsquerda.soltar();
+			} else {
+				System.out.println("[" + this.nome + "] esta pensando");
+				Thread.sleep(r.nextInt(1500) + 500);
 			}
 		}
 	}
@@ -63,6 +72,7 @@ public class Filosofo extends Thread{
 			if(this.comeu == false) {
 				try {
 					this.comer();
+					Thread.sleep(r.nextInt(500) + 100);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
