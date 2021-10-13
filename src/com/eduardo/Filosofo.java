@@ -7,14 +7,17 @@ public class Filosofo extends Thread{
 	private int pos;
 	private Garfo garfoDireita;
 	private Garfo garfoEsquerda;
-	private boolean comeu = false;
+	private Contador contador;
 	private final Random r = new Random();
 	
-	public Filosofo(String nome, int pos, Garfo garfoDireita, Garfo garfoEsquerda) {
+	public Filosofo(String nome, int pos, Garfo garfoDireita, Garfo garfoEsquerda, Contador contador) {
 		this.nome = nome;
 		this.pos = pos;
 		this.garfoDireita = garfoDireita;
 		this.garfoEsquerda = garfoEsquerda;
+		this.contador = contador;
+		
+		Contador.nomes[pos] = nome; 
 	}
 	
 	public void comer() throws InterruptedException {
@@ -29,16 +32,18 @@ public class Filosofo extends Thread{
 					this.garfoDireita.soltar();
 					this.garfoEsquerda.soltar();
 					System.out.println("[" + this.nome + "] terminou de comer\n");
-					this.comeu = true;
+					this.contador.adionarJantares(pos);
 				} else {
 					this.garfoDireita.soltar();
 					System.out.println("[" + this.nome + "] esta pensando");
 					Thread.sleep(r.nextInt(1500) + 500);
+					this.contador.adionarPensamentos(pos);
 				}			
 				
 			} else {
 				System.out.println("[" + this.nome + "] esta pensando");
 				Thread.sleep(r.nextInt(1500) + 500);
+				this.contador.adionarPensamentos(pos);
 			}
 			
 		} else {
@@ -52,16 +57,18 @@ public class Filosofo extends Thread{
 					this.garfoDireita.soltar();
 					this.garfoEsquerda.soltar();
 					System.out.println("[" + this.nome + "] terminou de comer\n");
-					this.comeu = true;
+					this.contador.adionarJantares(pos);
 				} else {
 					this.garfoEsquerda.soltar();
 					System.out.println("[" + this.nome + "] esta pensando");
 					Thread.sleep(r.nextInt(1500) + 500);
+					this.contador.adionarPensamentos(pos);
 				}
 				
 			} else {
 				System.out.println("[" + this.nome + "] esta pensando");
 				Thread.sleep(r.nextInt(1500) + 500);
+				this.contador.adionarPensamentos(pos);
 			}
 		}
 	}
@@ -69,7 +76,7 @@ public class Filosofo extends Thread{
 	@Override
 	public void run() {
 		while (true) {
-			if(this.comeu == false) {
+			if(this.contador.comer) {
 				try {
 					this.comer();
 					Thread.sleep(r.nextInt(500) + 100);
