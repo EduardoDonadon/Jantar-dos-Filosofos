@@ -5,8 +5,12 @@ public class Contador extends Thread {
 	private int[] filosofosPensar = {0, 0, 0, 0, 0};
 	public static String[] nomes = new String[5]; 
 	private int timer = 0;
+	private int timerLimit;
 	public boolean comer = true;
 	
+	public Contador(int timerLimit) {
+		this.timerLimit = timerLimit;
+	}
 	
 	public void adionarJantares(int pos) {
 		filosofosJantar[pos] ++; 
@@ -37,7 +41,7 @@ public class Contador extends Thread {
 				Thread.sleep(1000);
 				timer++;
 				
-				if (timer == 90) {
+				if (timer == this.timerLimit) {
 					comer = false;
 					
 					Thread.sleep(2200);

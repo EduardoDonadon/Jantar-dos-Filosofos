@@ -1,9 +1,10 @@
 package com.eduardo;
 
 public class Start {
+	private static final int TIMER = 10;
 
 	public static void main(String[] args) {
-		Contador contador = new Contador();
+		Contador contador = new Contador(TIMER);
 		
 		Garfo garfo1 = new Garfo();
 		Garfo garfo2 = new Garfo();
